@@ -1,4 +1,7 @@
 django
 python-dotenv
 psycopg2-binary
-phonenumber_field
+django-phonenumber-field[phonenumberslite]
+djangorestframework
+markdown
+django-filter
