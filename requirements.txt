@@ -5,3 +5,4 @@ django-phonenumber-field[phonenumberslite]
 djangorestframework
 markdown
 django-filter
+pillow

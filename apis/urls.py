@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import ListTourists, DetailTourist
+from .views import ListMountainPass, DetailMountainPass
 
 urlpatterns = [
-    path('', ListTourists.as_view()),
-    path('<int:pk>/', DetailTourist.as_view()),
+    path('', ListMountainPass.as_view()),
+    path('<int:pk>/', DetailMountainPass.as_view()),
 ]

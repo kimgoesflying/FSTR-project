@@ -1,14 +1,14 @@
 from rest_framework import generics
 
 from mountain_pass import models
-from .serializers import TouristSerializer
+from .serializers import MountainPassSerializer
 
 
-class ListTourists(generics.ListCreateAPIView):
-    queryset = models.Tourist.objects.all()
-    serializer_class = TouristSerializer
+class ListMountainPass(generics.ListCreateAPIView):
+    queryset = models.MountainPass.objects.all()
+    serializer_class = MountainPassSerializer
 
 
-class DetailTourist(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Tourist.objects.all()
-    serializer_class = TouristSerializer
+class DetailMountainPass(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.MountainPass.objects.all()
+    serializer_class = MountainPassSerializer
