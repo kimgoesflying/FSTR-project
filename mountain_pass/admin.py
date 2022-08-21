@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mountain_pass.models import Tourist, MountainPass, Coordinates, MountainPassImage
+from mountain_pass.models import *
 # Register your models here.
 
 
