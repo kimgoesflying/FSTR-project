@@ -41,13 +41,13 @@ class MountainPass(models.Model):
         max_length=8, default='new')
 
     level_winter = models.CharField(
-        max_length=3, blank=True)
+        max_length=3, blank=True, default='')
     level_spring = models.CharField(
-        max_length=3, blank=True)
+        max_length=3, blank=True, default='')
     level_summer = models.CharField(
-        max_length=3, blank=True)
+        max_length=3, blank=True, default='')
     level_autumn = models.CharField(
-        max_length=3, blank=True)
+        max_length=3, blank=True, default='')
 
     def __str__(self):
         return f'{self.title}'
