@@ -9,7 +9,7 @@ class Tourist(models.Model):
     first_name = models.CharField(max_length=256)
     middle_name = models.CharField(max_length=256)
     last_name = models.CharField(max_length=256)
-    email = models.EmailField(max_length=254)
+    email = models.EmailField(max_length=254, unique=True)
     phone = PhoneNumberField()
 
     def get_full_name(self):
@@ -20,8 +20,8 @@ class Tourist(models.Model):
 
 
 class Coordinates(models.Model):
-    latitude = models.DecimalField(max_digits=10, decimal_places=4)
-    longitude = models.DecimalField(max_digits=10, decimal_places=4)
+    latitude = models.DecimalField(max_digits=10, decimal_places=6)
+    longitude = models.DecimalField(max_digits=10, decimal_places=6)
     height = models.IntegerField()
 
     def __str__(self):
@@ -30,10 +30,10 @@ class Coordinates(models.Model):
 
 class MountainPass(models.Model):
 
-    beauty_title: models.CharField(max_length=64, null=True)
+    beauty_title = models.CharField(max_length=64, null=True, blank=True)
     title = models.CharField(max_length=254, default='title')
-    other_titles = models.CharField(max_length=254, null=True)
-    connect = models.CharField(max_length=64, null=True)
+    other_titles = models.CharField(max_length=254, null=True, blank=True)
+    connect = models.CharField(max_length=64, null=True, blank=True)
     add_time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         Tourist, on_delete=models.CASCADE, related_name='mountain_pass')

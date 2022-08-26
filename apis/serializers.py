@@ -40,6 +40,7 @@ class MountainPassSerializer(WritableNestedModelSerializer):
     class Meta:
         model = MountainPass
         fields = ('title', 'other_titles',
+                  'beauty_title',
                   'connect',  'status', 'user',
                   'coordinates',
                   'level_winter',
@@ -47,27 +48,6 @@ class MountainPassSerializer(WritableNestedModelSerializer):
                   'level_autumn',
                   'images'
                   )
-
-    # def create(self, validated_data):
-    #     coords_data = validated_data.pop('coordinates')
-    #     user_data = validated_data.pop('user')
-    #     images = validated_data.pop('images', None)
-
-    #     coordinates = Coordinates.objects.create(**coords_data)
-    #     user = Tourist.objects.create(**user_data)
-    #     mountainpass = MountainPass.objects.create(coordinates=coordinates, user=user,
-    #                                                **validated_data)
-
-    #     if images is not None:
-    #         for img in images:
-    #             print(img)
-    #             print(img["image"])
-    #             print(img["title"])
-
-    #             # MountainPassImage.objects.create(
-    #             #     mountainpass=mountainpass, **img)
-
-    #     return mountainpass
 
     def validate_status(self, value):
         STATUS_TYPE = [
