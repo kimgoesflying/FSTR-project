@@ -6,8 +6,9 @@ from mountain_pass.models import *
 
 @admin.register(Tourist)
 class TouristAdmin(admin.ModelAdmin):
+    eadonly_fields = ('id', )
     list_display = [
-        'get_full_name', 'email', 'phone',
+        'id', 'get_full_name', 'email', 'phone',
     ]
 
 
@@ -34,6 +35,12 @@ class MountainPassImageAdmin(admin.ModelAdmin):
     list_display = ('id',  'binary_image_tag', 'title',)
 
 
-admin.site.register(MountainPass)
+@admin.register(MountainPass)
+class MountainPassAdmin(admin.ModelAdmin):
+    readonly_fields = ('id', )
+    list_display = ('id', 'title',)
+
+
+# admin.site.register(MountainPass)
 admin.site.register(Coordinates)
 # admin.site.register(MountainPassImage)

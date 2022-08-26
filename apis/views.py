@@ -33,3 +33,13 @@ class DetailMountainPass(APIView):
 
         serializer = MountainPassSerializer(mountain_pass)
         return Response(serializer.data)
+
+    def put(self, request, pk):
+        mountain_pass = models.MountainPass.objects.get(pk=pk)
+        serializer = MountainPassSerializer(mountain_pass, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
