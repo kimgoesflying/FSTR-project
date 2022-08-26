@@ -1,5 +1,7 @@
 from django.db import models
+from django.utils.html import mark_safe
 from phonenumber_field.modelfields import PhoneNumberField
+from base64 import b64encode
 
 
 class Tourist(models.Model):
@@ -57,8 +59,18 @@ class MountainPassImage(models.Model):
     mountainpass = models.ForeignKey(
         MountainPass, default=None, on_delete=models.CASCADE, related_name="images")
     date_add = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    #image = models.ImageField(upload_to='images/', blank=True, null=True)
+    binary_image = models.BinaryField(blank=True, null=True, editable=True)
     title = models.CharField(max_length=128, null=True)
 
     def __str__(self):
         return f'{self.title}'
+
+    def binary_image_tag(self):
+
+        return mark_safe('<img src = "data: image/png; base64, {}" width="100" height="100">'.format(
+            b64encode(self.binary_image).decode('utf8')
+        ))
+
+    binary_image_tag.short_description = 'Image'
+    binary_image_tag.allow_tags = True

@@ -1,6 +1,15 @@
 from rest_framework import serializers
 from mountain_pass.models import MountainPass, Tourist, Coordinates, MountainPassImage
 from drf_writable_nested.serializers import WritableNestedModelSerializer
+from base64 import b64encode, b64decode
+
+
+class Base64BinaryField(serializers.Field):
+    def to_representation(self, value):
+        return b64encode(value)
+
+    def to_internal_value(self, data):
+        return b64decode(data)
 
 
 class CoordinatesSerializer(serializers.ModelSerializer):
@@ -16,25 +25,49 @@ class TouristSerializer(serializers.ModelSerializer):
 
 
 class MountainPassImageSerializer(serializers.ModelSerializer):
+    image_base64 = Base64BinaryField(source='binary_image')
+
     class Meta:
         model = MountainPassImage
-        fields = ('image', 'title')
+        fields = ('image_base64', 'title')
 
 
 class MountainPassSerializer(WritableNestedModelSerializer):
     user = TouristSerializer()
-    coords = CoordinatesSerializer(source='coordinates')
+    coordinates = CoordinatesSerializer()
+    images = MountainPassImageSerializer(many=True)
 
     class Meta:
         model = MountainPass
         fields = ('title', 'other_titles',
                   'connect',  'status', 'user',
-                  'coords',
+                  'coordinates',
                   'level_winter',
                   'level_spring', 'level_summer',
                   'level_autumn',
-                  # 'images'
+                  'images'
                   )
+
+    # def create(self, validated_data):
+    #     coords_data = validated_data.pop('coordinates')
+    #     user_data = validated_data.pop('user')
+    #     images = validated_data.pop('images', None)
+
+    #     coordinates = Coordinates.objects.create(**coords_data)
+    #     user = Tourist.objects.create(**user_data)
+    #     mountainpass = MountainPass.objects.create(coordinates=coordinates, user=user,
+    #                                                **validated_data)
+
+    #     if images is not None:
+    #         for img in images:
+    #             print(img)
+    #             print(img["image"])
+    #             print(img["title"])
+
+    #             # MountainPassImage.objects.create(
+    #             #     mountainpass=mountainpass, **img)
+
+    #     return mountainpass
 
     def validate_status(self, value):
         STATUS_TYPE = [
