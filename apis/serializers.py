@@ -1,7 +1,10 @@
 from rest_framework import serializers
 from mountain_pass.models import MountainPass, Tourist, MountainPassImage
 from drf_writable_nested.serializers import WritableNestedModelSerializer
+from drf_writable_nested import UniqueFieldsMixin
 from base64 import b64encode, b64decode
+from django.db import IntegrityError
+from rest_framework.exceptions import APIException
 
 
 class Base64BinaryField(serializers.Field):
@@ -12,7 +15,7 @@ class Base64BinaryField(serializers.Field):
         return b64decode(data)
 
 
-class TouristSerializer(serializers.ModelSerializer):
+class TouristSerializer(UniqueFieldsMixin,  serializers.ModelSerializer):
     class Meta:
         model = Tourist
         fields = ('email', 'first_name', 'middle_name', 'last_name', 'phone')
@@ -40,6 +43,24 @@ class MountainPassSerializer(WritableNestedModelSerializer):
                   'level_summer', 'level_autumn',
                   'images'
                   )
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        images_data = validated_data.pop('images')
+
+        try:
+            user, created = Tourist.objects.get_or_create(**user_data)
+        except IntegrityError as e:
+            raise APIException(detail=e)
+
+        mountainpass = MountainPass.objects.create(user=user, **validated_data)
+
+        if images_data is not None:
+            for img in images_data:
+                MountainPassImage.objects.create(
+                    mountainpass=mountainpass, **img)
+
+        return mountainpass
 
     def validate_status(self, value):
         STATUS_TYPE = [

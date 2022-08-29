@@ -39,7 +39,7 @@ class DetailMountainPass(APIView):
         mountain_pass = models.MountainPass.objects.get(pk=pk)
         mountain_pass_status = mountain_pass.status
         if mountain_pass_status == 'new':
-            request.data.pop('user')
+            request.data.pop('user', None)
 
             serializer = MountainPassSerializer(
                 mountain_pass, data=request.data, partial=True)
@@ -50,4 +50,4 @@ class DetailMountainPass(APIView):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'state': 0, 'message': f"Cant edit {mountain_pass_status} status"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'state': 0, 'message': f"Can't edit {mountain_pass_status} status"}, status=status.HTTP_204_NO_CONTENT)
