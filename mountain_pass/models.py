@@ -19,15 +19,6 @@ class Tourist(models.Model):
         return f'{self.last_name} {self.first_name} {self.middle_name}'
 
 
-class Coordinates(models.Model):
-    latitude = models.DecimalField(max_digits=10, decimal_places=6)
-    longitude = models.DecimalField(max_digits=10, decimal_places=6)
-    height = models.IntegerField()
-
-    def __str__(self):
-        return f'{self.latitude} {self.longitude} {self.height}'
-
-
 class MountainPass(models.Model):
 
     beauty_title = models.CharField(max_length=64, null=True, blank=True)
@@ -37,10 +28,15 @@ class MountainPass(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         Tourist, on_delete=models.CASCADE, related_name='mountain_pass')
-    coordinates = models.ForeignKey(
-        Coordinates, on_delete=models.CASCADE, related_name='mountain_pass')
+
     status = models.CharField(
         max_length=8, default='new')
+
+    latitude = models.DecimalField(
+        max_digits=10, decimal_places=6, null=True)
+    longitude = models.DecimalField(
+        max_digits=10, decimal_places=6, null=True)
+    height = models.IntegerField()
 
     level_winter = models.CharField(
         max_length=3, blank=True, default='')
@@ -59,7 +55,7 @@ class MountainPassImage(models.Model):
     mountainpass = models.ForeignKey(
         MountainPass, default=None, on_delete=models.CASCADE, related_name="images")
     date_add = models.DateTimeField(auto_now_add=True)
-    #image = models.ImageField(upload_to='images/', blank=True, null=True)
+    # image = models.ImageField(upload_to='images/', blank=True, null=True)
     binary_image = models.BinaryField(blank=True, null=True, editable=True)
     title = models.CharField(max_length=128, null=True)
 

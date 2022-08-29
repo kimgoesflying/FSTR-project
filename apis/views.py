@@ -34,12 +34,20 @@ class DetailMountainPass(APIView):
         serializer = MountainPassSerializer(mountain_pass)
         return Response(serializer.data)
 
-    def put(self, request, pk):
-        mountain_pass = models.MountainPass.objects.get(pk=pk)
-        serializer = MountainPassSerializer(mountain_pass, data=request.data)
+    def patch(self, request, pk):
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        mountain_pass = models.MountainPass.objects.get(pk=pk)
+        mountain_pass_status = mountain_pass.status
+        if mountain_pass_status == 'new':
+            request.data.pop('user')
+
+            serializer = MountainPassSerializer(
+                mountain_pass, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'state': 1, 'message': "Success"}, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'state': 0, 'message': f"Cant edit {mountain_pass_status} status"}, status=status.HTTP_204_NO_CONTENT)

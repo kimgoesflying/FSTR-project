@@ -39,8 +39,3 @@ class MountainPassImageAdmin(admin.ModelAdmin):
 class MountainPassAdmin(admin.ModelAdmin):
     readonly_fields = ('id', )
     list_display = ('id', 'title',)
-
-
-# admin.site.register(MountainPass)
-admin.site.register(Coordinates)
-# admin.site.register(MountainPassImage)

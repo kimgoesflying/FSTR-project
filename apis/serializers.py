@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from mountain_pass.models import MountainPass, Tourist, Coordinates, MountainPassImage
+from mountain_pass.models import MountainPass, Tourist, MountainPassImage
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 from base64 import b64encode, b64decode
 
@@ -10,12 +10,6 @@ class Base64BinaryField(serializers.Field):
 
     def to_internal_value(self, data):
         return b64decode(data)
-
-
-class CoordinatesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Coordinates
-        fields = ('latitude', 'longitude', 'height')
 
 
 class TouristSerializer(serializers.ModelSerializer):
@@ -34,7 +28,6 @@ class MountainPassImageSerializer(serializers.ModelSerializer):
 
 class MountainPassSerializer(WritableNestedModelSerializer):
     user = TouristSerializer()
-    coordinates = CoordinatesSerializer()
     images = MountainPassImageSerializer(many=True)
 
     class Meta:
@@ -42,10 +35,9 @@ class MountainPassSerializer(WritableNestedModelSerializer):
         fields = ('title', 'other_titles',
                   'beauty_title',
                   'connect',  'status', 'user',
-                  'coordinates',
-                  'level_winter',
-                  'level_spring', 'level_summer',
-                  'level_autumn',
+                  'latitude', 'longitude', 'height',
+                  'level_winter', 'level_spring',
+                  'level_summer', 'level_autumn',
                   'images'
                   )
 
