@@ -1,27 +1,17 @@
 from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from mountain_pass import models
 from .serializers import MountainPassSerializer
+from django_filters import rest_framework as filters
 
 
-class ListMountainPass(APIView):
-
-    def get(self, request):
-        mountain_pass_list = models.MountainPass.objects.all()
-        serializer = MountainPassSerializer(mountain_pass_list, many=True)
-
-        return Response(serializer.data)
-
-    def post(self, request):
-
-        serializer = MountainPassSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class ListMountainPass(generics.ListCreateAPIView):
+    queryset = models.MountainPass.objects.all()
+    serializer_class = MountainPassSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('user__email',)
 
 
 class DetailMountainPass(APIView):

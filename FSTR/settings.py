@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'mountain_pass',
     'rest_framework',
+    'django_filters',
     'apis'
 ]
 
