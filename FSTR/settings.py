@@ -28,7 +28,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -153,7 +153,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'FSTR API',
-    'DESCRIPTION': 'База по горным объектам России и СНГ',
+    'DESCRIPTION': 'REST API Базы по горным объектам России и СНГ',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
