@@ -5,6 +5,8 @@ from rest_framework import status
 from mountain_pass import models
 from .serializers import MountainPassSerializer
 from django_filters import rest_framework as filters
+from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
+from rest_framework import serializers
 
 
 class ListMountainPass(generics.ListCreateAPIView):
@@ -13,8 +15,23 @@ class ListMountainPass(generics.ListCreateAPIView):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('user__email',)
 
+    @extend_schema(
+        request=MountainPassSerializer,
+        responses={201: MountainPassSerializer},
+    )
+    def create(self, request):
+        return super().create(request)
 
-class DetailMountainPass(APIView):
+
+class DetailMountainPass(generics.RetrieveAPIView):
+    queryset = models.MountainPass.objects.all()
+    serializer_class = MountainPassSerializer
+
+    @extend_schema(
+        request=MountainPassSerializer,
+        responses={200: OpenApiResponse(MountainPassSerializer),
+                   404: OpenApiResponse(description='Not found'), },
+    )
     def get(self, request, pk):
         try:
             mountain_pass = models.MountainPass.objects.get(pk=pk)
@@ -24,6 +41,16 @@ class DetailMountainPass(APIView):
         serializer = MountainPassSerializer(mountain_pass)
         return Response(serializer.data)
 
+    @extend_schema(
+        request=MountainPassSerializer,
+        responses={200: inline_serializer(name='MountainPassResponse',
+
+                                          fields={
+                                              'state': serializers.IntegerField(),
+                                              'message': serializers.CharField(),
+                                          }),
+                   400: OpenApiResponse(description='Bad request'), },
+    )
     def patch(self, request, pk):
 
         mountain_pass = models.MountainPass.objects.get(pk=pk)
@@ -40,4 +67,4 @@ class DetailMountainPass(APIView):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'state': 0, 'message': f"Can't edit {mountain_pass_status} status"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'state': 0, 'message': f"Can't edit {mountain_pass_status} status"}, status=status.HTTP_200_OK)

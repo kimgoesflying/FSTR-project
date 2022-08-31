@@ -84,7 +84,7 @@ class MountainPassSerializer(WritableNestedModelSerializer):
             return value
         else:
             raise serializers.ValidationError(
-                "Level can only be '1А', '1Б', '1Б*', '2А', '2Б*', '2Б', '3А', '3Б', '3Б * or empty string")
+                "Level can only be '1А', '1Б', '1Б*', '2А', '2Б*', '2Б', '3А', '3Б', '3Б* or empty string")
 
     def validate_level_spring(self, value):
         if value in self.LEVEL_TYPE:
