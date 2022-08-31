@@ -28,7 +28,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -91,18 +91,17 @@ WSGI_APPLICATION = 'FSTR.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': str(os.getenv('FSTR_DB_NAME')),
-#         'USER': str(os.getenv('FSTR_DB_LOGIN')),
-#         'PASSWORD': str(os.getenv('FSTR_DB_PASS')),
-#         'HOST': str(os.getenv('FSTR_DB_HOST')),
-#         'PORT': str(os.getenv('FSTR_DB_PORT')),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': str(os.getenv('FSTR_DB_NAME')),
+        'USER': str(os.getenv('FSTR_DB_LOGIN')),
+        'PASSWORD': str(os.getenv('FSTR_DB_PASS')),
+        'HOST': str(os.getenv('FSTR_DB_HOST')),
+        'PORT': str(os.getenv('FSTR_DB_PORT')),
+    }
+}
 
 
 # Password validation
