@@ -92,15 +92,22 @@ WSGI_APPLICATION = 'FSTR.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': str(os.getenv('FSTR_DB_NAME')),
-        'USER': str(os.getenv('FSTR_DB_LOGIN')),
-        'PASSWORD': str(os.getenv('FSTR_DB_PASS')),
-        'HOST': str(os.getenv('FSTR_DB_HOST')),
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': str(os.getenv('FSTR_DB_NAME')),
+#         'USER': str(os.getenv('FSTR_DB_LOGIN')),
+#         'PASSWORD': str(os.getenv('FSTR_DB_PASS')),
+#         'HOST': str(os.getenv('FSTR_DB_HOST')),
+#         'PORT': str(os.getenv('FSTR_DB_PORT')),
+#     }
+# }
 
 
 # Password validation
@@ -138,8 +145,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles_build' / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
