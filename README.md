@@ -33,6 +33,8 @@ http://127.0.0.1:8000/api/v1/schema/swagger-ui
 ```
 ## DEMO
 https://fstr-project.herokuapp.com/api/v1/schema/swagger-ui
+
 https://fstr-project.herokuapp.com/admin
-user: root
-password: root
+
+- user: root
+- password: root
