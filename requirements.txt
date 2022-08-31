@@ -8,3 +8,4 @@ django-filter
 pillow
 drf-writable-nested
 drf-spectacular
+django_on_heroku
