@@ -161,5 +161,6 @@ SPECTACULAR_SETTINGS = {
 
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = ['https://fstr-project.herokuapp.com']
 
 django_on_heroku.settings(locals())
