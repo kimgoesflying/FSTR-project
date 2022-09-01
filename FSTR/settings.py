@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'drf_spectacular',
-    'apis'
+    'apis',
+    'coverage',
 ]
 
 MIDDLEWARE = [

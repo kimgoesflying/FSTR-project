@@ -50,6 +50,9 @@ class MountainPass(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+    class Meta:
+        verbose_name_plural = "Mountain passes"
+
 
 class MountainPassImage(models.Model):
     mountainpass = models.ForeignKey(
@@ -63,7 +66,6 @@ class MountainPassImage(models.Model):
         return f'{self.title}'
 
     def binary_image_tag(self):
-
         return mark_safe('<img src = "data: image/png; base64, {}" width="100" height="100">'.format(
             b64encode(self.binary_image).decode('utf8')
         ))
